@@ -5,11 +5,11 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
-      {
-        "include": "modules/email/templates/**/*",
-        "outDir": "dist/modules/email/templates"
-      }
-    ],
+  {
+    "include": "modules/email/templates/**/*",
+    "outDir": "modules/email/templates"
+  }
+],
     "watchAssets": true
   }
 }

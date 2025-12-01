@@ -48,17 +48,29 @@ export class EmailService {
   // STEP 2: Load template safely
   // ----------------------------
   private loadTemplate(templateName: string): string {
-    // Determine templates folder dynamically
-    const basePath = path.resolve(__dirname, 'templates');
-    const filePath = path.join(basePath, templateName);
+    // __dirname points to:
+    // - dev: src/modules/email
+    // - prod: dist/modules/email
+    // Templates are under 'templates/' folder
+    const templatePath = path.join(__dirname, 'templates', templateName);
 
-    if (!existsSync(filePath)) {
-      console.error(`Template path checked: ${filePath}`);
-      throw new NotFoundException(`Template "${templateName}" not found`);
+    // If not found, try one level up (handles double path after build)
+    const fallbackPath = path.join(process.cwd(), 'dist', 'modules', 'email', 'templates', templateName);
+
+    let finalPath = templatePath;
+
+    if (!existsSync(templatePath)) {
+      if (existsSync(fallbackPath)) {
+        finalPath = fallbackPath;
+      } else {
+        console.error('Checked paths:', templatePath, fallbackPath);
+        throw new NotFoundException(`Template "${templateName}" not found`);
+      }
     }
 
-    return readFileSync(filePath, 'utf-8');
+    return readFileSync(finalPath, 'utf-8');
   }
+
 
   // ----------------------------
   // STEP 3: Replace placeholders

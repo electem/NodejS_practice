@@ -51,7 +51,8 @@ export class PostService {
       subject: 'New Post Created',
       template: 'welcome.html',   // template file
       payload: {
-        username: user.name,
+        name: user.name,
+        userId: user.id,
         postTitle: savedPost.title,
         postContent: savedPost.content,
         createdAt: new Date().toLocaleString(),
