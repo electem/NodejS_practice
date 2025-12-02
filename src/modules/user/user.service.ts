@@ -38,4 +38,19 @@ export class UserService {
       throw new NotFoundException(`User ID ${id} not found`);
     }
   }
+
+  // src/modules/user/user.service.ts
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepo.findOne({ where: { email } });
+  }
+  async createOAuthUser(email: string, name: string): Promise<User> {
+    const user = this.userRepo.create({
+      email,
+      name,
+      password: undefined, // use undefined instead of null
+    });
+
+    return this.userRepo.save(user);
+  }
+
 }

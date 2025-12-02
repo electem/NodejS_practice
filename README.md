@@ -270,6 +270,45 @@ export const typeOrmConfig = {
 * npm install --save-dev @types/nodemailer
 
 
+# NestJS Authentication Project
+This project demonstrates a **complete authentication system** in NestJS with:
+
+1. **Email/Password Login**
+2. **Google OAuth Login**
+3. **JWT Token Issuance**
+4. **User Management (Database)**
+
+We will explain **step by step** how everything works, what to install, and how data flows.
+
+---
+
+## **1️⃣ Prerequisites**
+
+Before starting, make sure you have:
+
+- Node.js >= 18 installed
+- PostgreSQL / MySQL database running (or any DB TypeORM supports)
+- NestJS CLI installed globally (optional):
+```bash
+npm install -g @nestjs/cli
+
+# NestJS + TypeORM + database driver
+npm install @nestjs/typeorm typeorm pg  # use 'mysql2' if using MySQL
+
+# JWT Authentication
+npm install @nestjs/jwt passport-jwt passport
+
+# Google OAuth
+npm install @nestjs/passport passport-google-oauth20
+
+# Password hashing
+npm install bcrypt
+npm install --save-dev @types/bcrypt
+
+# Environment variables
+npm install @nestjs/config
+
+
 
 
 

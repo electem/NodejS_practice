@@ -1,10 +1,11 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException, Get, Req, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { ApiProperty } from '@nestjs/swagger';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { ErrorResponseDto } from './dto/error-response.dto';
 import { IsEmail, IsString, MinLength } from 'class-validator';
+import { AuthGuard } from '@nestjs/passport';
 
 class LoginDto {
   @ApiProperty({ example: 'john@example.com' })
@@ -41,4 +42,13 @@ export class AuthController {
 
     return this.authService.login({ email: body.email });
   }
+
+  // Google OAuth callback
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleCallback(@Req() req: any) {
+    // req.user comes from GoogleStrategy -> AuthService
+    return req.user;
+  }
+
 }

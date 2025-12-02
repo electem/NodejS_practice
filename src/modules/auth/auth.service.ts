@@ -39,4 +39,29 @@ export class AuthService {
   async findByEmail(email: string): Promise<User | null> {
     return this.userRepo.findOne({ where: { email } });
   }
+
+  async validateOAuthUser(oauthData: { email: string; name: string }): Promise<{ user: Partial<User>; access_token: string }> {
+    let user = await this.findByEmail(oauthData.email);
+
+    // If user doesn't exist, create a new one
+    if (!user) {
+      // Use create + save instead of passing object with null
+      user = this.userRepo.create({
+        email: oauthData.email,
+        name: oauthData.name,
+        password: undefined, // use undefined instead of null
+      });
+      user = await this.userRepo.save(user);
+    }
+
+    // Remove password before returning
+    const { password, ...userWithoutPassword } = user as any;
+
+    // Issue JWT using existing login method
+    const tokenData = await this.login({ email: user.email });
+
+    return { user: userWithoutPassword, access_token: tokenData.access_token };
+  }
+
+
 }
