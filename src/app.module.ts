@@ -8,6 +8,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { PostModule } from './modules/post/post.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TwilioModule } from './modules/twilio/twilio.module';
+import { ReservationModule } from './modules/reservation/reservation.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TwilioModule } from './modules/twilio/twilio.module';
     PostModule,
     AuthModule,
     TwilioModule,
+    ReservationModule,
   ],
 })
 export class AppModule {}
